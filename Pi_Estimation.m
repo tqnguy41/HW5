@@ -15,42 +15,43 @@
 close all
 clc
 clear all 
-%constant variable
-attempt_value = 100;
-point_area = 0;
-point_total = attempt_value;
-radius = 1;
 
+%constant variable
+%30 data point to create average
+%loop go over many times
+%10 attempts
+attempt_value = 99999999;
+%points in the area
+%point in the random
+point_total = attempt_value;
+point_area2 = 0;
+radius = 1;
 %creating the accuracy
 %setting the decimal point
-n = 2; 
+n = 16; 
 %setting the digital digits
-digitsOld = digits(n);
+digits(n);
+%reduce the everyhing to logical for efficency
+coordinates_x = rand(1,attempt_value);
+coordinates_y = rand(1,attempt_value);
+length_xy = sqrt(coordinates_x.^2+coordinates_y.^2);
+point_area = length(length_xy(length_xy <= radius));
 
-%for loop for random value
-for i=1:1:attempt_value
-    coordinates_x = vpa(randi([0,radius*10])/10);
-    coordinates_y = vpa(randi([0,radius*10])/10);
-    length_xy = sqrt(coordinates_x^2+coordinates_y^2);
-    if length_xy <= radius
-        point_area = point_area + 1;
-    end
-end
-%calculate the pi estimate
 pi_estimation = vpa((point_area/point_total)*4);
 
 %calculation of the error
 pi_actual = vpa(pi);
 
-digitsOld = digits(100);
+%fprintf('Calculated pi value = %f\n',pi_estimation)
+%fprintf('Actual pi value = %f\n',pi_actual)
+
 percent_error = (pi_estimation)*100/(pi_actual);
-
 %print stuff out
-fprintf('Calculated pi value = %f\n',pi_estimation)
-fprintf('Actual pi value = %f\n',pi_actual)
-fprintf('Percent Error Value = %0.2f\n',percent_error)
+%fprintf('Percent Error Value = %0.2f\n',percent_error)
+%save the percent accuracy
+loop_percent = percent_error;
 
+fprintf('With accuracy of %f, the percent accuracy is %f\n',n,mean(loop_percent))
 
-
-
-
+fprintf('Mean value of pi estimate %0.16f\n',vpa(mean(pi_estimation)))
+fprintf('Mean value of pi estimate %0.16f\n',vpa(pi_actual))

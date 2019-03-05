@@ -1,0 +1,61 @@
+%Toan Nguyen
+%Homework 5
+%MECE 5397/6397
+%Assignment 5A
+
+% Estimate the number of Monte Carlo points needed to get 2,
+% 4, 8 and 16 decimal places of accuracy. (try to get as many
+% accurate decimal digits that your computer can handle)
+% What would be the effect of using single precision vs double
+% precision for your calculations?
+
+
+%% Pi Value
+%housekeeping
+close all
+clc
+clear all 
+
+%constant variable
+%30 data point to create average
+totals = 1;
+loop_percent = zeros(1,totals);
+pi_estimation = zeros(1,totals);
+%loop go over many times
+for loop = 1:1:totals
+    %10 attempts
+    attempt_value = 9999999;
+    %points in the area
+    %point in the random
+    point_total = attempt_value;
+    point_area2 = 0;
+    radius = 1;
+    %creating the accuracy
+    %setting the decimal point
+    n = 16; 
+    %setting the digital digits
+    digits(n);
+    %reduce the everyhing to logical for efficency
+    coordinates_x = rand(1,attempt_value);
+    coordinates_y = rand(1,attempt_value);
+    length_xy = sqrt(coordinates_x.^2+coordinates_y.^2);
+    point_area = length(length_xy(length_xy <= radius));
+    
+    pi_estimation(loop) = vpa((point_area/point_total)*4);
+
+    %calculation of the error
+    pi_actual = vpa(pi);
+
+    %fprintf('Calculated pi value = %f\n',pi_estimation)
+    %fprintf('Actual pi value = %f\n',pi_actual)
+
+    percent_error = (pi_estimation(loop))*100/(pi_actual);
+    %print stuff out
+    %fprintf('Percent Error Value = %0.2f\n',percent_error)
+    %save the percent accuracy
+    loop_percent(loop) = percent_error;
+end
+fprintf('With %f attempt with accuracy of %f, the percent accuracy is %f\n',totals,n,mean(loop_percent))
+
+fprintf('Mean value of pi estimate %d\n',vpa(mean(pi_estimation)))
+fprintf('Mean value of pi estimate %0.16f\n',vpa(pi_actual))
